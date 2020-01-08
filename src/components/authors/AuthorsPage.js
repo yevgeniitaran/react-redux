@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import React, {useEffect, useState} from "react"
 import AuthorList from "./AuthorList";
+import Spinner from "../common/spinner";
 
 const AuthorsPage = (props) => {
     const [authors, setAuthors] = useState(props.authors);
@@ -19,18 +20,25 @@ const AuthorsPage = (props) => {
     });
 
     return (
-        <AuthorList authors={authors} onDeleteClick={props.actions.deleteAuthor}/>
+        <>
+            <h2>Authors</h2>
+            {props.loading ? <Spinner/> : (
+                <AuthorList authors={authors} onDeleteClick={props.actions.deleteAuthor}/>
+            )}
+        </>
     )
 };
 
 AuthorsPage.propTypes = {
     authors: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        authors: state.authors
+        authors: state.authors,
+        loading: state.apiCallsInProgress > 0
     };
 }
 
