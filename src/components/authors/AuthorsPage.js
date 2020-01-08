@@ -3,6 +3,7 @@ import * as authorActions from "../../redux/actions/authorActions";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import React, {useEffect, useState} from "react"
+import AuthorList from "./AuthorList";
 
 const AuthorsPage = (props) => {
     const [authors, setAuthors] = useState(props.authors);
@@ -18,11 +19,7 @@ const AuthorsPage = (props) => {
     });
 
     return (
-        <>
-            <p>
-                {authors.map(a => a.name + " ")}
-            </p>
-        </>
+        <AuthorList authors={authors} onDeleteClick={props.actions.deleteAuthor}/>
     )
 };
 
@@ -40,7 +37,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch)
+            loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch),
+            deleteAuthor: bindActionCreators(authorActions.deleteAuthor, dispatch)
         }
     };
 }
