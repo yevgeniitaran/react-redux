@@ -6,10 +6,10 @@ import React from "react"
 it("sets submit button label 'Saving' when saving is set true", () => {
     const tree = renderer.create(
         <CourseForm
-            onChange={courses[0]}
+            course={courses[0]}
             authors={authors}
             onSave={jest.fn()}
-            course={jest.fn()}
+            onChange={jest.fn()}
             saving/>
     );
 
@@ -19,10 +19,10 @@ it("sets submit button label 'Saving' when saving is set true", () => {
 it("sets submit button to 'Save' when saving is false", () => {
     const tree = renderer.create(
         <CourseForm
-            onChange={courses[0]}
+            course={courses[0]}
             authors={authors}
             onSave={jest.fn()}
-            course={jest.fn()}
+            onChange={jest.fn()}
             saving={false}/>
     );
 
