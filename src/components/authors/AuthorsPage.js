@@ -6,12 +6,12 @@ import React, {useEffect, useState} from "react"
 import AuthorList from "./AuthorList";
 import Spinner from "../common/spinner";
 
-const AuthorsPage = (props) => {
+const AuthorsPage = ({actions, history, ...props}) => {
     const [authors, setAuthors] = useState(props.authors);
 
     useEffect(() => {
         if (props.authors.length === 0) {
-            props.actions.loadAuthors().catch(error => {
+            actions.loadAuthors().catch(error => {
                 alert("Loading authors failed " + error);
             });
         } else {
@@ -19,11 +19,19 @@ const AuthorsPage = (props) => {
         }
     });
 
+    const openAuthorPage = (event) => {
+        event.preventDefault();
+        history.push("/author");
+    };
+
     return (
         <>
             <h2>Authors</h2>
+            <button className="btn btn-primary" style={{marginBottom: 20}} onClick={openAuthorPage}>
+                Add Author
+            </button>
             {props.loading ? <Spinner/> : (
-                <AuthorList authors={authors} onDeleteClick={props.actions.deleteAuthor}/>
+                <AuthorList authors={authors} onDeleteClick={actions.deleteAuthor}/>
             )}
         </>
     )
@@ -32,7 +40,8 @@ const AuthorsPage = (props) => {
 AuthorsPage.propTypes = {
     authors: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
